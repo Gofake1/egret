@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Egret - {{.Mbox}}</title>
+  <script src="js/main.js"></script>
+  <style>
+    .cd {
+      cursor: default;
+    }
+    .fr {
+      float: right;
+    }
+    .margin {
+      margin: 16px;
+    }
+    .account-row {
+      padding-right: 1em;
+    }
+    .mail-date {
+      padding-right: 1em;
+      white-space: nowrap;
+      width: 0%;
+    }
+    .mail-preview {
+      overflow: hidden;
+      max-width: 1px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .list-title {
+      margin-top: 0;
+      padding-top: 16px;
+    }
+    .plain {
+      white-space: pre-wrap;
+    }
+    #current-mbox {
+      font-weight: bold;
+    }
+    #mail {
+      background-color: white;
+      border-color: black;
+      border-style: dashed;
+      bottom: 0;
+      overflow: auto;
+      padding: 1em;
+      position: fixed;
+      right: 0;
+      z-index: 1;
+    }
+    #settings {
+      background-color: white;
+      border-color: black;
+      border-style: dashed;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      padding: 1em;
+      position: fixed;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body style="margin: 0;">
+  <div style="display: flex;">
+    <nav class="cd">
+      <div style="position: -webkit-sticky; position: sticky; top: 0;">
+        <p class="list-title margin">{{.Username}}</p>
+        <ul class="list margin">
+          <li><span id="current-mbox" onclick="mboxClicked('{{.Server}}', '{{.Username}}', '{{.Mbox}}', this)">{{.Mbox}}</span></li>
+        {{range .OtherMboxes}}
+          <li><span onclick="mboxClicked('{{$.Server}}', '{{$.Username}}', '{{.}}', this)">{{.}}</span></li>
+        {{end}}
+        </ul>
+      {{range .OtherAccounts}}
+        <p class="list-title margin">{{.Username}}</p>
+        <ul class="list margin">
+        {{$Server := .Server}}
+        {{$Username := .Username}}
+        {{range .Mboxes}}
+          <li><span onclick="mboxClicked('{{$Server}}', '{{$Username}}', '{{.}}', this)">{{.}}</span></li>
+        {{end}}
+        </ul>
+      {{end}}
+        <div style="padding: 16px;">
+          <span onclick="settingsClicked()">Settings</span>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <table id="mails" class="cd margin">
+      {{range .Previews}}
+        <tr onclick="mailClicked('{{$.Server}}', '{{$.Username}}', '{{$.Mbox}}', '{{.Uid}}')">
+          <td class="mail-date">{{.Date}}</td>
+          <td class="mail-preview">{{.Subject}} <span style="color: gray;">{{.Preview}}</span></td>
+        </tr>
+      {{end}}
+      </table>
+    </main>
+  </div>
+  <div id="mail" style="display: none;"></div>
+  <div id="settings" style="display: none;">
+    <div>
+      <strong>Settings</strong>
+      <span onclick="settingsCloseClicked()" class="cd fr">&times;</span>
+    </div>
+    <table id="accounts" class="cd">
+      <tr>
+        <td class="account-row">{{.Username}}</td>
+        <td><span onclick="removeAccountClicked('{{.Server}}', '{{.Username}}', this)">&times;</span></td>
+      </tr>
+    {{range .OtherAccounts}}
+      <tr>
+        <td class="account-row">{{.Username}}</td>
+        <td><span onclick="removeAccountClicked('{{.Server}}', '{{.Username}}', this)">&times;</span></td>
+      </tr>
+    {{end}}
+    </table>
+    <hr/>
+    <div id="addAccount">
+      <div>
+        <input id="addAccountServer" type="text" placeholder="mail.example.com:993"/>
+      </div>
+      <div>
+        <input id="addAccountUsername" type="text" placeholder="user@example.com"/>
+      </div>
+      <div>
+        <input id="addAccountPassword" type="password" placeholder="password"/>
+      </div>
+      <div>
+        <button onclick="addAccountClicked()">Add Account</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

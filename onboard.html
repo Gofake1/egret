@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Egret - Welcome</title>
+  <script src="js/onboard.js"></script>
+  <style>
+    .block {
+      margin-bottom: 1em;
+      margin-top: 1em;
+    }
+    #settings, #overview {
+      border-color: black;
+      border-style: dashed;
+      display: inline-block;
+      margin: 0 auto;
+      padding: 1em;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <template id="account-inputs">
+    <div class="block">
+      <div>
+        <label>Server:</label>
+        <input type="text" name="server" placeholder="mail.example.com:993"/>
+      </div>
+      <div>
+        <label>Username:</label>
+        <input type="text" name="username" placeholder="user@example.com"/>
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password"/>
+      </div>
+    </div>
+  </template>
+  <div style="text-align: center;">
+    <div id="settings">
+      <h1>Welcome to Egret</h1>
+      <p>Add accounts:</p>
+      <div id="settings-blocks">
+        <div class="block">
+          <div>
+            <label>Server:</label>
+            <input type="text" name="server" placeholder="mail.example.com:993"/>
+          </div>
+          <div>
+            <label>Username:</label>
+            <input type="text" name="username" placeholder="user@example.com"/>
+          </div>
+          <div>
+            <label>Password:</label>
+            <input type="password" name="password"/>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button onclick="addAccountClicked()">Add Another Account</button>
+        <button onclick="nextClicked()" style="float: right;">Next</button>
+      </div>
+    </div>
+    <div id="overview" style="display: none;">
+      <h1>Welcome to Egret</h1>
+      <p>Confirm accounts:</p>
+      <div id="overview-blocks"></div>
+      <div>
+        <button onclick="cancelClicked()">Cancel</button>
+        <button onclick="finishClicked()" style="float: right;">Finish</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
